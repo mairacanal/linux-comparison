@@ -10,13 +10,13 @@ the intention to compare the real-time performance of distinct Linux-based syste
 
 ## Experiments
 
-1. User Space application with libgpiod
+1. **Experiment 1:** User Space application with libgpiod
 
-2. Kernel Space application with gpiod
+2. **Experiment 2:** Kernel Space application with gpiod
 
-3. User Space application with PREEMPT_RT
+3. **Experiment 3:** User Space application with PREEMPT_RT
 
-4. User Space application with Xenomai
+4. **TODO** User Space application with Xenomai
 
 ## Blogposts
 
