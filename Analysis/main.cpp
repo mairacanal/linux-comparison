@@ -96,7 +96,7 @@ auto get_report(const interval &req, const interval &res, const report &last)
 
   curr_report.req = req;
   curr_report.res = res;
-  curr_report.delay = abs(curr_report.res.start - curr_report.req.start);
+  curr_report.delay = abs(curr_report.res.time - curr_report.req.time);
   curr_report.jitter = curr_report.delay - last.delay;
 
   return curr_report;
