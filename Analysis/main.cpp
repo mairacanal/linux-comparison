@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include <matplot/matplot.h>
+
 using namespace std;
 
 typedef struct line {
