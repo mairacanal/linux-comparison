@@ -1,9 +1,12 @@
 obj-m += gpio_test.o
 
-CC = $(CROSS_COMPILE)gcc
+## $(shell uname -r): return the current kernel build version
+## -C: switches the directory to the kernel directory 
+## M=$(PWD): tells the make command where the actual project files exist
+## modules: default target for external kernel modules
 
 all:
-	make -C $(KDIR) M=$(PWD) modules
+		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
-	make -C $(KDIR) M=$(PWD) clean
+		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
