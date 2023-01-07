@@ -18,6 +18,9 @@ the intention to compare the real-time performance of distinct Linux-based syste
 
 4. **TODO** User Space application with Xenomai
 
+Moreover, the Toradex [stress-test](https://github.com/toradex/rt-validation) script
+was used to test the system in stressed situations.
+
 ## Blogposts
 
 - [Installing Xenomai on the Beaglebone Black](https://mairacanal.github.io/install-xenomai-beaglebone-black/)
