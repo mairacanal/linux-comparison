@@ -47,7 +47,7 @@ struct gpiod_line *get_gpio_line(const char* chipname, int gpio) {
 
 }
 
-int *gpio_response(void* data)
+void *gpio_response(void* data)
 {
     const char *inputChipname = "gpiochip1";
     const char *outputChipname = "gpiochip0";
@@ -63,13 +63,13 @@ int *gpio_response(void* data)
 	// Request a interrupt at the gpiod_line
     if (gpiod_line_request_both_edges_events(inputLine, "gpio_event") < 0) {
         perror("Request event failed");
-        return EXIT_FAILURE;
+        return NULL;
     }
 
 	// Sets the gpiod_line to output
     if (gpiod_line_request_output(outputLine, "gpio_event", value) < 0) {
         perror("Request output failed");
-        return EXIT_FAILURE;
+        return NULL;
     }
 
     while (1) {
@@ -86,13 +86,11 @@ int *gpio_response(void* data)
 
     }
 
-    return EXIT_SUCCESS;
-
+    return NULL;
 }
 
 int main(int argc, char** argv)
 {
-
     struct sched_param param;
     pthread_attr_t attr;
     pthread_t thread;
@@ -123,7 +121,7 @@ int main(int argc, char** argv)
         goto out;
     }
 
-    param.sched_priority = 80;
+    param.sched_priority = 99;
     if (ret = pthread_attr_setschedparam(&attr, &param)) {
         printf("pthread setschedparam failed\n");
         goto out;
