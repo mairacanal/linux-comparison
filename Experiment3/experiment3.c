@@ -53,7 +53,7 @@ int *gpio_response(void* data)
     const char *outputChipname = "gpiochip0";
     
     struct gpiod_line *inputLine, *outputLine;
-    struct gpiod_line_event interrupt;
+    /* struct gpiod_line_event interrupt; */
 
     int value = 0;
 
@@ -73,12 +73,6 @@ int *gpio_response(void* data)
     }
 
     while (1) {
-
-		// Waits the event be triggered
-        gpiod_line_event_wait(inputLine, NULL);
-
-        if (gpiod_line_event_read(inputLine, &interrupt) != 0) 
-            continue;
 
         // Copies the input value to the output
         value = gpiod_line_get_value(inputLine);
