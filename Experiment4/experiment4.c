@@ -14,6 +14,9 @@
 #include <alchemy/task.h>
 #include <alchemy/timer.h>
 
+#define INPUT_GPIO 16    // P9_15
+#define OUTPUT_GPIO 20   // P9_41
+
 #define CLOCK_RES   1e-9 // Clock resolution is 1 ns by default
 #define LOOP_PERIOD 10 // Expressed in ticks
 
@@ -68,20 +71,20 @@ void loop_task_proc(void *arg)
 	// Request a interrupt at the gpiod_line
     if (gpiod_line_request_both_edges_events(inputLine, "gpio_event") < 0) {
         perror("Request event failed");
-        return NULL;
+        return;
     }
 
 	// Sets the gpiod_line to output
     if (gpiod_line_request_output(outputLine, "gpio_event", value) < 0) {
         perror("Request output failed");
-        return NULL;
+        return;
     }
 
     curtask = rt_task_self();
     rt_task_inquire(curtask, &curtaskinfo);
 
     // Print the info
-    printf("Starting task %s with period of 5 ns ....\n", curtaskinfo.name);
+    printf("Starting task %s with period of 10 ns ....\n", curtaskinfo.name);
 
     // Make the task periodic with a specified loop period
     rt_task_set_periodic(NULL, TM_NOW, LOOP_PERIOD);
@@ -112,10 +115,10 @@ int main(int argc, char **argv)
     // Lock the memory to avoid memory swapping for this program
     mlockall(MCL_CURRENT | MCL_FUTURE);
       
-    printf("Starting cyclic task...\n");
+    printf("Starting experiment4...\n");
 
     // Create the real time task
-    sprintf(str, "cyclic_task");
+    sprintf(str, "experiment4");
     rt_task_create(&loop_task, str, 0, 50, 0);
 
     // Since task starts in suspended mode, start task

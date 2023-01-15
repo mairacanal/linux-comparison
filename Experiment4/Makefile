@@ -4,9 +4,9 @@ TARGET=experiment4
 
 LM=-lm
 
-CFLAGS := $(shell xeno-config --skin=alchemy --cflags)
-LDFLAGS := $(LM) $(shell xeno-config --skin=alchemy --ldflags) -lgpiod
-CC := $(shell xeno-config --cc)
+CFLAGS := $(shell /usr/xenomai/bin/xeno-config --skin=alchemy --cflags)
+LDFLAGS := $(LM) $(shell /usr/xenomai/bin/xeno-config --skin=alchemy --ldflags) -lgpiod
+CC := $(shell /usr/xenomai/bin/xeno-config --cc)
 
 $(TARGET): $(MAIN_SRC).c
 		$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS)
