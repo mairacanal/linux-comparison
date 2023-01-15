@@ -12,13 +12,9 @@
 #include <unistd.h>
 #include <sys/mman.h>
 #include <alchemy/task.h>
-#include <alchemy/timer.h>
 
 #define INPUT_GPIO 16    // P9_15
 #define OUTPUT_GPIO 20   // P9_41
-
-#define CLOCK_RES   1e-9 // Clock resolution is 1 ns by default
-#define LOOP_PERIOD 10 // Expressed in ticks
 
 RT_TASK loop_task;
 
@@ -83,14 +79,6 @@ void loop_task_proc(void *arg)
     curtask = rt_task_self();
     rt_task_inquire(curtask, &curtaskinfo);
 
-    // Print the info
-    printf("Starting task %s with period of 10 ns ....\n", curtaskinfo.name);
-
-    // Make the task periodic with a specified loop period
-    rt_task_set_periodic(NULL, TM_NOW, LOOP_PERIOD);
-
-    tstart = rt_timer_read();
-
     // Start the task loop
     while (1) {
 
@@ -103,8 +91,6 @@ void loop_task_proc(void *arg)
         // Copies the input value to the output
         value = gpiod_line_get_value(inputLine);
         gpiod_line_set_value(outputLine, value);
-
-        rt_task_wait_period(NULL);
     }
 }
 
