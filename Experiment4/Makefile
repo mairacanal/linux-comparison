@@ -1,13 +1,12 @@
-obj-m += gpio_test.o
+SKIN=alchemy
+MAIN_SRC=experiment4
+TARGET=experiment4
 
-## $(shell uname -r): return the current kernel build version
-## -C: switches the directory to the kernel directory 
-## M=$(PWD): tells the make command where the actual project files exist
-## modules: default target for external kernel modules
+LM=-lm
 
-all:
-		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+CFLAGS := $(shell xeno-config --skin=alchemy --cflags)
+LDFLAGS := $(LM) $(shell xeno-config --skin=alchemy --ldflags) -lgpiod
+CC := $(shell xeno-config --cc)
 
-clean:
-		make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-
+$(TARGET): $(MAIN_SRC).c
+		$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS)
