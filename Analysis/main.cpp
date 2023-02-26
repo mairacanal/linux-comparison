@@ -94,23 +94,23 @@ auto get_report(const interval &req, const interval &res, const report &last)
 
   curr_report.req = req;
   curr_report.res = res;
-  curr_report.delay = abs(curr_report.res.start - curr_report.req.start);
+  curr_report.delay = abs(curr_report.res.end - curr_report.req.end);
   curr_report.jitter = curr_report.delay - last.delay;
 
   return curr_report;
 }
 
-void print_queue(queue<interval> intervals) {
+void print_queue(deque<interval> intervals) {
   while (intervals.size()) {
-    const auto res = intervals.front();
+    const auto res = intervals.back();
     cout << '#';
     print_interval(res);
     cout << endl;
-    intervals.pop();
+    intervals.pop_back();
   }
 }
 
-void print_stats(queue<interval> reqs, queue<interval> resps, int cont_req,
+void print_stats(deque<interval> reqs, deque<interval> resps, int cont_req,
                  int cont_resp) {
   cout << "#requests without answer:" << endl;
   print_queue(reqs);
@@ -138,10 +138,10 @@ auto find_interval(line &start, line &end, line &last, line &curr, bool input)
   return start.is_valid && end.is_valid;
 }
 
-void push_interval(int id, line &start, line &end, queue<interval> &intervals) {
+void push_interval(int id, line &start, line &end, deque<interval> &intervals) {
   auto new_interval = get_interval(start, end);
   new_interval.id = id;
-  intervals.push(new_interval);
+  intervals.push_back(new_interval);
   start.is_valid = false;
   end.is_valid = false;
 }
@@ -168,8 +168,8 @@ int main() {
 
   vector<string> header = read_header(3);
 
-  queue<interval> reqs;
-  queue<interval> resps;
+  deque<interval> reqs;
+  deque<interval> resps;
 
   line curr_line;
   line last_line;
@@ -206,16 +206,16 @@ int main() {
     }
 
     while (reqs.size() && resps.size()) {
-      const auto req = reqs.front();
-      const auto res = resps.front();
+      const auto req = reqs.back();
+      const auto res = resps.back();
       const auto report = get_report(req, res, last_report);
 
       print_report(report);
 
       last_report = report;
 
-      reqs.pop();
-      resps.pop();
+      reqs.pop_back();
+      resps.pop_back();
     }
 
     last_line = curr_line;
