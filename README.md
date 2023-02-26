@@ -16,7 +16,7 @@ the intention to compare the real-time performance of distinct Linux-based syste
 
 3. **Experiment 3:** User Space application with PREEMPT_RT
 
-4. **TODO** User Space application with Xenomai
+4. **Experiment 4:** User Space application with Xenomai
 
 Moreover, the Toradex [stress-test](https://github.com/toradex/rt-validation) script
 was used to test the system in stressed situations.
